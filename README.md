@@ -163,8 +163,8 @@ yolo-tooth-detection/
 │   ├── 📂 labels/                # YOLO format labels
 │   └── 📄 data.yaml              # Dataset configuration
 ├── 📂 ToothNumber_TaskDataset/   # Original dataset
-├── 📂 runs/                      # Training outputs
-├── 📄 train_yolo.py             # Training script
+├── 📂 runs/                      # Training outputs (MacBook test training)
+├── 📄 train_yolo.py             # MacBook test training script
 ├── 📄 run_tooth_detection.py    # Full pipeline script
 ├── 📄 prepare_dataset.py         # Dataset preparation
 ├── 📄 inspect_dataset.py         # Dataset analysis
@@ -174,8 +174,8 @@ yolo-tooth-detection/
 
 ### 🔑 Key Files
 - **`yolo.ipynb`**: **Main training notebook** - 150 epochs, YOLOv8l, 1024x1024 resolution
-- **`train_yolo.py`**: Training script for local development
-- **`runs/`**: Contains training outputs and results
+- **`train_yolo.py`**: Test training script for MacBook MPS testing
+- **`runs/`**: Contains test training outputs from MacBook
 
 ## 🔧 Implementation Details
 
