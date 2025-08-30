@@ -19,20 +19,13 @@ This repository contains my submission for the **OralVis AI Research Intern Task
 
 ## 🏗️ Architecture & Technical Details
 
-### Main Model Specifications (Google Colab T4)
-- **Base Model**: YOLOv8 Large (yolov8l.pt) - **Primary Training**
+### Model Specifications
+- **Base Model**: YOLOv8 Large (yolov8l.pt)
 - **Input Resolution**: 1024x1024 pixels (high resolution for small teeth detection)
 - **Training Device**: Google Colab Tesla T4 GPU (15GB VRAM, CUDA 12.4)
 - **Batch Size**: 8 (optimized for T4 memory)
 - **Epochs**: 150 (extended training for optimal performance)
 - **Early Stopping**: Patience=25 epochs
-
-### Test Model Specifications (MacBook)
-- **Base Model**: YOLOv8 Nano (yolov8n.pt) - **Test Training**
-- **Input Resolution**: 640x640 pixels
-- **Training Device**: MacBook MPS (Apple Metal) with automatic fallback
-- **Batch Size**: Adaptive (16 → 8 → 4 → 2 → 1) with memory optimization
-- **Epochs**: 50 (configurable)
 
 ### FDI Tooth Numbering System
 The system implements the international standard dental numbering:
@@ -79,10 +72,10 @@ python --version
 pip install ultralytics torch torchvision
 ```
 
-### Training Environments
-- **Main Training**: Google Colab with T4 GPU (CUDA)
-- **Test Training**: MacBook with MPS (Apple Metal)
-- **Local Development**: CPU fallback support
+### Training Environment
+- **Training Platform**: Google Colab with T4 GPU (CUDA)
+- **Hardware**: Tesla T4 GPU with 15GB VRAM
+- **Framework**: PyTorch 2.8.0 with CUDA 12.4 support
 
 ## 🎯 Main Model Training Details (Google Colab T4)
 
@@ -143,20 +136,7 @@ model.train(
 )
 ```
 
-#### Test Training (MacBook)
-```bash
-python train_yolo.py
-```
 
-#### Custom Training (MacBook)
-```bash
-python train_yolo.py \
-    --model yolov8n.pt \
-    --epochs 50 \
-    --batch 16 \
-    --imgsz 640 \
-    --device mps
-```
 
 #### Full Pipeline
 ```bash
@@ -164,8 +144,6 @@ python run_tooth_detection.py
 ```
 
 ### Training Parameters
-
-#### Main Model (Google Colab T4)
 | Parameter | Value | Description |
 |-----------|-------|-------------|
 | `model` | yolov8l.pt | YOLOv8 Large pre-trained weights |
@@ -173,15 +151,6 @@ python run_tooth_detection.py
 | `batch` | 8 | Optimized for T4 GPU memory |
 | `imgsz` | 1024 | High resolution for small teeth |
 | `device` | 0 | CUDA GPU device |
-
-#### Test Model (MacBook)
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `--model` | yolov8n.pt | YOLOv8 Nano pre-trained weights |
-| `--epochs` | 50 | Training epochs |
-| `--batch` | 16 | Batch size |
-| `--imgsz` | 640 | Input image size |
-| `--device` | mps | Compute device |
 
 ## 📁 Project Structure
 
@@ -194,8 +163,8 @@ yolo-tooth-detection/
 │   ├── 📂 labels/                # YOLO format labels
 │   └── 📄 data.yaml              # Dataset configuration
 ├── 📂 ToothNumber_TaskDataset/   # Original dataset
-├── 📂 runs/                      # Training outputs (MacBook test training)
-├── 📄 train_yolo.py             # MacBook test training script
+├── 📂 runs/                      # Training outputs
+├── 📄 train_yolo.py             # Training script
 ├── 📄 run_tooth_detection.py    # Full pipeline script
 ├── 📄 prepare_dataset.py         # Dataset preparation
 ├── 📄 inspect_dataset.py         # Dataset analysis
@@ -205,22 +174,23 @@ yolo-tooth-detection/
 
 ### 🔑 Key Files
 - **`yolo.ipynb`**: **Main training notebook** - 150 epochs, YOLOv8l, 1024x1024 resolution
-- **`train_yolo.py`**: Test training script for MacBook MPS testing
-- **`runs/`**: Contains test training outputs from MacBook
+- **`train_yolo.py`**: Training script for local development
+- **`runs/`**: Contains training outputs and results
 
 ## 🔧 Implementation Details
 
 ### Training Pipeline Features
-- **Automatic Dependency Installation**: Ultralytics installation with fallback options
-- **Memory Optimization**: Progressive batch size reduction on OOM errors
-- **Device Fallback**: MPS → CUDA → CPU with automatic detection
-- **Image Size Fallback**: 640 → 512 → 416 progressive reduction
+- **High-Resolution Training**: 1024x1024 input for precise tooth detection
+- **Anatomical Preservation**: FDI position-specific augmentations
+- **Extended Training**: 150 epochs with early stopping optimization
+- **GPU Optimization**: T4 memory-optimized batch processing
 - **Training Logs**: Comprehensive metrics and visualization
 
-### Error Handling
-- **Out of Memory (OOM)**: Automatic batch size and image size reduction
-- **Dependency Issues**: Graceful fallback installation methods
-- **Device Compatibility**: Multi-platform support (macOS, Linux, Windows)
+### Training Optimization
+- **Memory Management**: Optimized batch size for T4 GPU (15GB VRAM)
+- **Resolution Strategy**: High-resolution 1024x1024 for small tooth detection
+- **Augmentation Strategy**: X-ray specific, FDI position-preserving techniques
+- **Early Stopping**: Patience-based validation monitoring (25 epochs)
 
 ## 📈 Results & Evaluation
 
@@ -245,9 +215,9 @@ The model achieves competitive performance on the tooth detection task:
 ## 🧠 Technical Approach
 
 ### 1. Dataset Preparation
-- Automated train/validation split (80/20)
-- YOLO format conversion and validation
-- Image-label pairing verification
+- Automated train/validation split (80/20) - 397 train, 100 validation images
+- YOLO format conversion with 32 FDI tooth classes
+- Image-label pairing verification and quality checks
 
 ### 2. Model Architecture
 - **Backbone**: YOLOv8 CSPDarknet
@@ -256,10 +226,10 @@ The model achieves competitive performance on the tooth detection task:
 - **Loss Function**: Classification + Regression + Objectness
 
 ### 3. Training Strategy
-- **Transfer Learning**: Pre-trained on COCO dataset
-- **Data Augmentation**: Built-in YOLO augmentations
-- **Learning Rate**: Cosine annealing scheduler
-- **Early Stopping**: Patience-based validation monitoring
+- **Transfer Learning**: Pre-trained YOLOv8l on COCO dataset
+- **Data Augmentation**: X-ray specific, FDI position-preserving augmentations
+- **Learning Rate**: Optimized lr0=0.003 with cosine decay (lrf=0.1)
+- **Extended Training**: 150 epochs with early stopping (patience=25)
 
 ### 4. Post-Processing (Optional)
 - Anatomical correctness validation
