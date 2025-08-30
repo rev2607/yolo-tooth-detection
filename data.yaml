@@ -1,6 +1,7 @@
-path: dataset
-train: images/train
-val: images/val
+path: /content/ToothNumber_TaskDataset
+train: train/images
+val: val/images
+
 nc: 32
 names:
   - tooth_0
@@ -35,5 +36,3 @@ names:
   - tooth_29
   - tooth_30
   - tooth_31
-
-

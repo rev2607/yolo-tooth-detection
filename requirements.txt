@@ -1,0 +1,40 @@
+# YOLO Tooth Detection - OralVis AI Research Intern Task
+# Core dependencies for training and inference
+
+# Deep Learning Framework
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# YOLO Implementation
+ultralytics>=8.0.0
+
+# Computer Vision
+opencv-python>=4.5.0
+Pillow>=8.0.0
+
+# Data Processing
+numpy>=1.21.0
+pandas>=1.3.0
+
+# Visualization
+matplotlib>=3.5.0
+seaborn>=0.11.0
+plotly>=5.0.0
+
+# Jupyter Support
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
+# Utilities
+tqdm>=4.62.0
+PyYAML>=6.0
+requests>=2.25.0
+
+# Optional: GPU Support
+# nvidia-ml-py3>=7.352.0  # For NVIDIA GPU monitoring
+
+# Optional: Development
+# black>=22.0.0  # Code formatting
+# flake8>=4.0.0  # Linting
+# pytest>=6.0.0  # Testing
