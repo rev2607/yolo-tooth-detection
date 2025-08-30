@@ -19,10 +19,18 @@ This repository contains my submission for the **OralVis AI Research Intern Task
 
 ## 🏗️ Architecture & Technical Details
 
-### Model Specifications
-- **Base Model**: YOLOv8 (medium variant - yolov8m.pt)
-- **Input Resolution**: 640x640 pixels (configurable)
-- **Training Device**: MPS (Apple Metal), CUDA, or CPU with automatic fallback
+### Main Model Specifications (Google Colab T4)
+- **Base Model**: YOLOv8 Large (yolov8l.pt) - **Primary Training**
+- **Input Resolution**: 1024x1024 pixels (high resolution for small teeth detection)
+- **Training Device**: Google Colab Tesla T4 GPU (15GB VRAM, CUDA 12.4)
+- **Batch Size**: 8 (optimized for T4 memory)
+- **Epochs**: 150 (extended training for optimal performance)
+- **Early Stopping**: Patience=25 epochs
+
+### Test Model Specifications (MacBook)
+- **Base Model**: YOLOv8 Nano (yolov8n.pt) - **Test Training**
+- **Input Resolution**: 640x640 pixels
+- **Training Device**: MacBook MPS (Apple Metal) with automatic fallback
 - **Batch Size**: Adaptive (16 → 8 → 4 → 2 → 1) with memory optimization
 - **Epochs**: 50 (configurable)
 
@@ -71,6 +79,54 @@ python --version
 pip install ultralytics torch torchvision
 ```
 
+### Training Environments
+- **Main Training**: Google Colab with T4 GPU (CUDA)
+- **Test Training**: MacBook with MPS (Apple Metal)
+- **Local Development**: CPU fallback support
+
+## 🎯 Main Model Training Details (Google Colab T4)
+
+### Primary Training Configuration
+The main model was trained on **Google Colab Tesla T4 GPU** with the following optimized parameters:
+
+```python
+# Main Model Training (yolo.ipynb)
+model = YOLO('yolov8l.pt')  # YOLOv8 Large variant
+
+results = model.train(
+    data='/content/ToothNumber_TaskDataset/data.yaml',
+    epochs=150,          # Extended training for optimal performance
+    imgsz=1024,          # High resolution for small teeth detection
+    batch=8,             # Optimized for T4 15GB VRAM
+    device=0,            # CUDA GPU
+    patience=25,         # Early stopping with patience
+    
+    # X-ray specific augmentations (FDI position-preserving)
+    fliplr=0.0,          # No horizontal flip (preserves left/right)
+    flipud=0.0,          # No vertical flip (preserves upper/lower)
+    mosaic=0.0,          # No mosaic (preserves tooth positioning)
+    mixup=0.0,           # No mixup (preserves anatomical structure)
+    
+    # Gentle X-ray augmentations
+    degrees=5.0,         # Minimal rotation
+    translate=0.02,      # Small translation
+    scale=0.10,          # Minimal scaling
+    hsv_h=0.0, hsv_s=0.0, hsv_v=0.0,  # No color jitter (grayscale X-rays)
+    
+    # Optimization
+    lr0=0.003,           # Higher learning rate
+    lrf=0.1,             # Cosine decay
+    cache=True,          # Speed up training
+    verbose=True
+)
+```
+
+### Key Training Features
+- **High Resolution**: 1024x1024 for precise small tooth detection
+- **Anatomical Preservation**: Augmentations that maintain FDI positioning
+- **Extended Training**: 150 epochs with early stopping
+- **Memory Optimization**: Batch size 8 for T4 GPU efficiency
+
 ### Training Commands
 
 #### Basic Training
@@ -113,12 +169,12 @@ yolo-tooth-detection/
 │   ├── 📂 labels/                # YOLO format labels
 │   └── 📄 data.yaml              # Dataset configuration
 ├── 📂 ToothNumber_TaskDataset/   # Original dataset
-├── 📂 runs/                      # Training outputs
-├── 📄 train_yolo.py             # Main training script
+├── 📂 runs/                      # Training outputs (MacBook test training)
+├── 📄 train_yolo.py             # MacBook training script
 ├── 📄 run_tooth_detection.py    # Full pipeline script
 ├── 📄 prepare_dataset.py         # Dataset preparation
 ├── 📄 inspect_dataset.py         # Dataset analysis
-├── 📄 yolo.ipynb                # Jupyter notebook
+├── 📄 yolo.ipynb                # Main model (Google Colab T4)
 └── 📄 README.md                  # This file
 ```
 
