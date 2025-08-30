@@ -319,26 +319,11 @@ Training progress and metrics are automatically saved to:
 - `train_log.txt` - Console output log
 - TensorBoard logs for visualization
 
-## 🎯 Future Improvements
-
-### Planned Enhancements
-- [ ] Test set evaluation (10% split)
-- [ ] Advanced post-processing algorithms
-- [ ] Multi-model ensemble
-- [ ] Real-time inference optimization
-- [ ] Web application interface
-
-### Research Directions
-- [ ] Attention mechanisms for occluded teeth
-- [ ] 3D tooth reconstruction
-- [ ] Disease classification integration
-- [ ] Cross-dataset generalization
 
 
 ## 📞 Contact
 
-- **GitHub**: [Your Repository Link]
 - **Email**: revanthg2607@gmail.com
-- **LinkedIn**: [https://www.linkedin.com/in/rev2607/]
+- **LinkedIn**: https://www.linkedin.com/in/rev2607/
 
 
