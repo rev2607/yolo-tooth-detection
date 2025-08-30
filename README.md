@@ -129,16 +129,30 @@ results = model.train(
 
 ### Training Commands
 
-#### Basic Training
+#### Main Model Training (Google Colab)
+```python
+# Use yolo.ipynb notebook on Google Colab with T4 GPU
+from ultralytics import YOLO
+model = YOLO('yolov8l.pt')
+model.train(
+    data='data.yaml',
+    epochs=150,
+    imgsz=1024,
+    batch=8,
+    device=0
+)
+```
+
+#### Test Training (MacBook)
 ```bash
 python train_yolo.py
 ```
 
-#### Custom Training
+#### Custom Training (MacBook)
 ```bash
 python train_yolo.py \
-    --model yolov8m.pt \
-    --epochs 100 \
+    --model yolov8n.pt \
+    --epochs 50 \
     --batch 16 \
     --imgsz 640 \
     --device mps
@@ -150,9 +164,20 @@ python run_tooth_detection.py
 ```
 
 ### Training Parameters
+
+#### Main Model (Google Colab T4)
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| `model` | yolov8l.pt | YOLOv8 Large pre-trained weights |
+| `epochs` | 150 | Extended training epochs |
+| `batch` | 8 | Optimized for T4 GPU memory |
+| `imgsz` | 1024 | High resolution for small teeth |
+| `device` | 0 | CUDA GPU device |
+
+#### Test Model (MacBook)
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| `--model` | yolov8m.pt | Pre-trained weights |
+| `--model` | yolov8n.pt | YOLOv8 Nano pre-trained weights |
 | `--epochs` | 50 | Training epochs |
 | `--batch` | 16 | Batch size |
 | `--imgsz` | 640 | Input image size |
@@ -170,13 +195,18 @@ yolo-tooth-detection/
 │   └── 📄 data.yaml              # Dataset configuration
 ├── 📂 ToothNumber_TaskDataset/   # Original dataset
 ├── 📂 runs/                      # Training outputs (MacBook test training)
-├── 📄 train_yolo.py             # MacBook training script
+├── 📄 train_yolo.py             # MacBook test training script
 ├── 📄 run_tooth_detection.py    # Full pipeline script
 ├── 📄 prepare_dataset.py         # Dataset preparation
 ├── 📄 inspect_dataset.py         # Dataset analysis
-├── 📄 yolo.ipynb                # Main model (Google Colab T4)
+├── 📄 yolo.ipynb                # 🎯 MAIN MODEL (Google Colab T4 GPU)
 └── 📄 README.md                  # This file
 ```
+
+### 🔑 Key Files
+- **`yolo.ipynb`**: **Main training notebook** - 150 epochs, YOLOv8l, 1024x1024 resolution
+- **`train_yolo.py`**: Test training script for MacBook MPS testing
+- **`runs/`**: Contains test training outputs from MacBook
 
 ## 🔧 Implementation Details
 
