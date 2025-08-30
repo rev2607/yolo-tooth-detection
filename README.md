@@ -334,32 +334,11 @@ Training progress and metrics are automatically saved to:
 - [ ] Disease classification integration
 - [ ] Cross-dataset generalization
 
-## 🤝 Contributing
-
-This is a hiring task submission for OralVis AI. For questions or collaboration opportunities, please contact the research team.
-
-## 📄 License
-
-This project is part of the OralVis AI Research Intern Task. All rights reserved.
-
-## 🙏 Acknowledgments
-
-- **OralVis AI** for providing the dataset and task
-- **Ultralytics** for the YOLOv8 implementation
-- **PyTorch** team for the deep learning framework
-- **Dental imaging community** for domain expertise
 
 ## 📞 Contact
 
 - **GitHub**: [Your Repository Link]
-- **Email**: [Your Email]
-- **LinkedIn**: [Your Profile]
+- **Email**: revanthg2607@gmail.com
+- **LinkedIn**: [https://www.linkedin.com/in/rev2607/]
 
----
-
-<div align="center">
-  <p><strong>🦷 OralVis AI Research Intern Task Submission</strong></p>
-  <p>Automated Tooth Detection & Numbering using YOLOv8</p>
-  <p><em>48-Hour Challenge Completed Successfully</em></p>
-</div>
 
